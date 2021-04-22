@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/journal/bootstrap.min.css"
+        integrity="sha384-QDSPDoVOoSWz2ypaRUidLmLYl4RyoBWI44iA5agn6jHegBxZkNqgm2eHb6yZ5bYs" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <title>Inicio</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">CRUD</a>
+
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Inicio</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br>
+    <div style="text-align: right; margin-right: 2rem;">
+        <a href="/create" type="button" class="btn btn-primary">Enviar nuevo</a>
+    </div>
+    <br>
+    <div style="margin-right: 2rem; margin-left: 2rem;">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Archivo</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Profesor</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(var i=0; i < archivos.length; i++) {%>
+                    <tr>
+                        <th scope="row">
+                            <%= archivos[i]._id %>
+                        </th>
+                        <td>
+                            <%= archivos[i].archivo %>
+                        </td>
+                        <td>
+                            <%= archivos[i].createdAt.toString().substring(0, 10) %>
+                        </td>
+                        <td>
+                            <%= archivos[i].nombres %>
+                        </td>
+                        <td>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-info" data-toggle="modal"
+                                data-target="#edit<%= archivos[i]._id %>">
+                                <i class="fa fa-edit"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-secondary" data-toggle="modal"
+                                data-target="#delete<%= archivos[i]._id %>">
+                                <i class="fa fa-trash"></i>
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="edit<%= archivos[i]._id %>" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Editar</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/edit" method="POST">
+                                                <div class="form-group" style="text-align: center;">
+                                                    <label>ID</label>
+                                                    <input name="txtPass" type="email" class="form-control"
+                                                        value="<%= archivos[i]._id %>" readonly="">
+                                                </div>
+                                                
+                                                <div class="form-group" style="text-align: center;">
+                                                    <label>Correo</label>
+                                                    <input name="txtCorreo" type="email" class="form-control"
+                                                        value="<%= archivos[i].correo %>">
+                                                </div>
+
+                                                <div class="form-group" style="text-align: center;">
+                                                    <label>Profesor</label>
+                                                    <input name="txtNombres" type="text" class="form-control"
+                                                        value="<%= archivos[i].nombres %>">
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-secondary"
+                                                        data-dismiss="modal">Cerrar</button>
+                                                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="delete<%= archivos[i]._id %>" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Eliminar</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/delete" method="POST">
+                                                <div class="form-group" style="text-align: center;">
+                                                    <label>ID</label>
+                                                    <input name="txtPass" type="email" class="form-control"
+                                                        value="<%= archivos[i]._id %>" readonly="">
+                                                </div>
+
+                                                <div class="form-group" style="text-align: center;">
+                                                    <label>Correo</label>
+                                                    <input name="txtCorreo" type="email" class="form-control"
+                                                        value="<%= archivos[i].correo %>" readonly="">
+                                                </div>
+
+                                                <div class="form-group" style="text-align: center;">
+                                                    <label>Profesor</label>
+                                                    <input name="txtNombres" type="text" class="form-control"
+                                                        value="<%= archivos[i].nombres %>" readonly="">
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-secondary"
+                                                        data-dismiss="modal">Cerrar</button>
+                                                    <button type="submit" class="btn btn-primary">Eliminar</button>
+                                                </div>
+                                            </form>
+                                        </div>                
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <% } %>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
